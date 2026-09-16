@@ -12,10 +12,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://d8j0ntlcm91z4.cloudfront.net">
+  <link rel="preconnect" href="https://d2ol7oe51mr4n9.cloudfront.net">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css">
   <link rel="stylesheet" href="./visual-v2.css">
-  <script src="./app.js" type="module"></script>
+  <link rel="stylesheet" href="./section-motion.css?v=20260916-motion2">
+  <script src="./app.js?v=20260916-motion2" type="module"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Salta al contenuto</a>
@@ -75,15 +77,29 @@
         <button type="button" class="phase" data-phase="2" aria-pressed="false"><b>03</b><span>Impianti</span></button>
         <button type="button" class="phase" data-phase="3" aria-pressed="false"><b>04</b><span>Materia</span></button>
       </div>
-      <p class="interaction-hint">DRAG PER RUOTARE · SCROLL PER LEGGERE</p>
+      <p class="interaction-hint">CLICK FASE · DRAG PER RUOTARE · SCROLL PER LEGGERE</p>
     </div>
-    <div class="section-stage" data-section-stage>
+    <div class="section-stage" data-section-stage data-motion-source="higgsfield" data-motion-status="loading" data-motion-phase="1">
+      <video
+        class="section-hf-video"
+        data-section-motion
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        disablepictureinpicture
+        poster="https://d2ol7oe51mr4n9.cloudfront.net/user_3JN4lq7KBj4c3qEQUgSkbrftgrd/68ba6e81-d727-4890-8d7d-5a926a10cf20.png"
+        aria-hidden="true">
+        <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3JN4lq7KBj4c3qEQUgSkbrftgrd/88d80145-615f-4289-85e3-919176c041e6.mp4" type="video/mp4">
+      </video>
+      <img class="section-motion-poster" src="https://d2ol7oe51mr4n9.cloudfront.net/user_3JN4lq7KBj4c3qEQUgSkbrftgrd/68ba6e81-d727-4890-8d7d-5a926a10cf20.png" alt="Vista assonometrica della Section House di INNESTO" loading="lazy">
       <canvas id="section-canvas" aria-label="Modello 3D interattivo di una casa sezionata"></canvas>
       <div class="section-fallback" aria-hidden="true">
         <i class="f-shell"></i><i class="f-structure"></i><i class="f-services"></i><i class="f-finish"></i>
       </div>
       <div class="stage-axis" aria-hidden="true"><span>X</span><span>Y</span><span>Z</span></div>
-      <div class="stage-caption"><span data-phase-caption>01 / ESISTENTE</span><span>SECTION HOUSE / INNESTO</span></div>
+      <div class="stage-caption"><span data-phase-caption>01 / ESISTENTE</span><span>SECTION HOUSE / HIGGSFIELD MOTION + LIVE 3D</span></div>
     </div>
   </section>
 
