@@ -6,6 +6,11 @@ const menu=document.getElementById('mobile-menu');
 const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
 let lockedY=0;
 
+const motionStyles=document.createElement('link');
+motionStyles.rel='stylesheet';
+motionStyles.href='./section-motion.css?v=20260916-motion1';
+document.head.appendChild(motionStyles);
+
 const lockPage=()=>{
   lockedY=window.scrollY;
   body.classList.add('menu-open');
@@ -62,14 +67,73 @@ const stage=document.querySelector('[data-section-stage]');
 const canvas=document.getElementById('section-canvas');
 const phaseButtons=[...document.querySelectorAll('[data-phase]')];
 const caption=document.querySelector('[data-phase-caption]');
+let desiredPhase=0;
+let seekMotion=()=>{};
+
+if(stage){
+  const motionVideo=document.createElement('video');
+  motionVideo.className='section-hf-video';
+  motionVideo.muted=true;
+  motionVideo.loop=true;
+  motionVideo.playsInline=true;
+  motionVideo.preload=reduceMotion?'none':'metadata';
+  motionVideo.disablePictureInPicture=true;
+  motionVideo.tabIndex=-1;
+  motionVideo.setAttribute('aria-hidden','true');
+  motionVideo.poster='https://d2ol7oe51mr4n9.cloudfront.net/user_3JN4lq7KBj4c3qEQUgSkbrftgrd/68ba6e81-d727-4890-8d7d-5a926a10cf20.png';
+  motionVideo.src='https://d2ol7oe51mr4n9.cloudfront.net/user_3JN4lq7KBj4c3qEQUgSkbrftgrd/88d80145-615f-4289-85e3-919176c041e6.mp4';
+  stage.insertBefore(motionVideo,canvas||stage.firstChild);
+  stage.dataset.motionSource='higgsfield';
+  stage.dataset.motionStatus=reduceMotion?'reduced':'loading';
+
+  let motionInView=false;
+  const phaseTimes=[.10,1.55,3.05,4.55];
+  const safePlay=()=>{
+    if(reduceMotion||!motionInView)return;
+    const p=motionVideo.play();
+    if(p?.catch)p.catch(()=>stage.classList.add('motion-paused'));
+  };
+  seekMotion=i=>{
+    stage.dataset.motionPhase=String(i+1);
+    if(!Number.isFinite(motionVideo.duration)||motionVideo.duration<=0)return;
+    motionVideo.currentTime=Math.min(phaseTimes[i]??0,Math.max(0,motionVideo.duration-.12));
+    safePlay();
+  };
+  motionVideo.addEventListener('loadedmetadata',()=>{
+    stage.dataset.motionDuration=motionVideo.duration.toFixed(2);
+    seekMotion(desiredPhase);
+  });
+  motionVideo.addEventListener('canplay',()=>{
+    stage.classList.add('motion-ready');
+    stage.classList.remove('motion-error');
+    stage.dataset.motionStatus='ready';
+    safePlay();
+  });
+  motionVideo.addEventListener('error',()=>{
+    stage.classList.remove('motion-ready');
+    stage.classList.add('motion-error');
+    stage.dataset.motionStatus='error';
+  });
+  new IntersectionObserver(entries=>{
+    motionInView=entries[0]?.isIntersecting??false;
+    if(reduceMotion){motionVideo.pause();return;}
+    if(motionInView)safePlay();else motionVideo.pause();
+  },{rootMargin:'180px'}).observe(stage);
+
+  const stopInteraction=()=>stage.classList.remove('motion-interacting');
+  stage.addEventListener('pointerdown',()=>stage.classList.add('motion-interacting'));
+  stage.addEventListener('pointerup',stopInteraction);
+  stage.addEventListener('pointercancel',stopInteraction);
+  stage.addEventListener('pointerleave',stopInteraction);
+}
 
 if(stage&&canvas){
-  let desiredPhase=0;
   const labels=['01 / ESISTENTE','02 / STRUTTURA','03 / IMPIANTI','04 / MATERIA'];
   const setPhaseUI=i=>{
     desiredPhase=i;
     phaseButtons.forEach((b,n)=>{b.classList.toggle('is-active',n===i);b.setAttribute('aria-pressed',String(n===i))});
     if(caption)caption.textContent=labels[i];
+    seekMotion(i);
   };
   phaseButtons.forEach((b,i)=>b.addEventListener('click',()=>setPhaseUI(i)));
 
@@ -145,7 +209,7 @@ if(stage&&canvas){
           renderer.render(scene,camera);
         };
         stage.classList.add('is-live');animate();
-      }catch(err){console.warn('INNESTO Section House fallback active.',err)}
+      }catch(err){console.warn('INNESTO Section House fallback active.',err);stage?.classList.add('motion-error')}
     };
     const io=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){io.disconnect();startScene()}},{rootMargin:'320px'});io.observe(stage);
   }
