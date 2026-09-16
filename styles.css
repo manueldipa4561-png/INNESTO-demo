@@ -54,3 +54,11 @@ a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit;c
 @media(max-width:430px){.hero-copy{min-height:590px}.section-stage{min-height:520px}.phase{padding:15px 0}.project-meta h3{font-size:16px}.material-break figure,.process-photo figure{min-height:520px}.brief-form button{min-height:58px}.mobile-menu{padding-top:30px}}
 
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}.hero-image img,.project img{transform:none!important}.section-fallback{opacity:1!important}}
+
+@media(max-width:430px){
+  .hero{grid-template-columns:minmax(0,1fr)}
+  .hero-copy,.hero-image,.section-heading{min-width:0}
+  .hero-copy h1{font-size:clamp(47px,13vw,56px);letter-spacing:-.07em}
+  .section-heading h2{font-size:clamp(40px,11.4vw,49px)}
+  .section-stage{overflow:hidden}
+}
