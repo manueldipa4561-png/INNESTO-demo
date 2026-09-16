@@ -17,7 +17,10 @@ const unlockPage=()=>{
   Object.assign(body.style,{position:'',top:'',left:'',right:'',width:''});
   html.style.overflow='';
   const y=lockedY;
-  requestAnimationFrame(()=>window.scrollTo(0,y));
+  const prevBehavior=html.style.scrollBehavior;
+  html.style.scrollBehavior='auto';
+  window.scrollTo(0,y);
+  requestAnimationFrame(()=>{html.style.scrollBehavior=prevBehavior});
 };
 const closeMenu=()=>{
   if(!body.classList.contains('menu-open')) return;
@@ -81,11 +84,11 @@ if(stage&&canvas){
         renderer.toneMapping=THREE.ACESFilmicToneMapping;
         renderer.toneMappingExposure=1.02;
         const scene=new THREE.Scene();
-        const camera=new THREE.PerspectiveCamera(32,1,.1,100);camera.position.set(8.4,-9.1,7.1);
-        const root=new THREE.Group();root.rotation.z=-.035;scene.add(root);
+        const camera=new THREE.PerspectiveCamera(34,1,.1,100);camera.position.set(7.5,-8.35,6.35);
+        const root=new THREE.Group();root.rotation.z=-.035;root.scale.setScalar(1.08);scene.add(root);
 
-        scene.add(new THREE.HemisphereLight(0xf4ead9,0x24231f,2.25));
-        const key=new THREE.DirectionalLight(0xffe8cd,4.2);key.position.set(4,-4,8);scene.add(key);
+        scene.add(new THREE.HemisphereLight(0xf6ead9,0x20211d,2.65));
+        const key=new THREE.DirectionalLight(0xffe8cd,5.2);key.position.set(4,-4,8);scene.add(key);
         const rim=new THREE.PointLight(0xb64a27,22,14,1.6);rim.position.set(-4,2,4);scene.add(rim);
 
         const mats={
