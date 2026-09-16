@@ -1,5 +1,3 @@
-if(!document.querySelector('link[data-innesto-v2]')){const l=document.createElement('link');l.rel='stylesheet';l.href='./visual-v2.css';l.dataset.innestoV2='';document.head.append(l)}
-
 const body=document.body;
 const html=document.documentElement;
 const header=document.querySelector('[data-header]');
