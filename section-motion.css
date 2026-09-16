@@ -1,0 +1,79 @@
+/* INNESTO — Section House motion layer
+   Higgsfield motion is the primary stage visual. Three.js is an interaction enhancement. */
+
+.section-stage{position:relative}
+
+.section-hf-video{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  width:100%;
+  height:100%;
+  box-sizing:border-box;
+  padding:clamp(18px,2.25vw,38px);
+  object-fit:contain;
+  object-position:center;
+  pointer-events:none;
+  opacity:0;
+  background:transparent;
+  filter:saturate(.86) contrast(1.055) brightness(.88);
+  transition:opacity .65s ease,filter .45s ease;
+}
+
+.section-stage.motion-ready .section-hf-video{opacity:.96}
+.section-stage.motion-ready .section-fallback{opacity:.07}
+
+/* Keep the procedural scene available, but never let it be the only visible layer. */
+#section-canvas{
+  z-index:3!important;
+  opacity:0!important;
+  pointer-events:none;
+  transition:opacity .35s ease;
+}
+.section-stage.is-live.motion-interacting #section-canvas{opacity:.72!important}
+.section-stage.is-live.motion-interacting .section-hf-video{
+  opacity:.38;
+  filter:saturate(.72) contrast(1.08) brightness(.72);
+}
+.section-stage.motion-error.is-live #section-canvas{opacity:.92!important}
+.section-stage.motion-error .section-fallback{opacity:.24!important}
+
+.section-stage:before,.stage-axis,.stage-caption{z-index:6!important}
+.section-stage:after{z-index:4!important}
+
+.section-stage.motion-ready:before{color:#b6aea2}
+.stage-caption{
+  text-shadow:0 1px 12px rgba(0,0,0,.65);
+  backdrop-filter:blur(2px);
+}
+
+/* A restrained light trace keeps the moving model visually tied to the technical drawing field. */
+.section-stage.motion-ready{
+  background:
+    linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px),
+    radial-gradient(circle at 52% 43%,#302f29 0,#1e1f1b 38%,#12130f 72%,#0f100d 100%);
+  background-size:72px 72px,72px 72px,auto;
+}
+
+@media (max-width:900px){
+  .section-hf-video{padding:clamp(12px,4vw,26px)}
+}
+
+@media (max-width:560px){
+  .section-hf-video{padding:12px;object-fit:contain}
+  .section-stage.motion-ready .section-hf-video{opacity:1}
+  .section-stage.is-live.motion-interacting #section-canvas{opacity:.62!important}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .section-hf-video{display:none!important}
+  #section-canvas{display:none!important}
+  .section-fallback{opacity:.88!important}
+  .section-stage{background:
+    linear-gradient(rgba(255,255,255,.032) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.032) 1px,transparent 1px),
+    radial-gradient(circle at 50% 42%,#38372f 0,#22231e 35%,#141511 68%,#10110e 100%)!important;
+    background-size:72px 72px,72px 72px,auto!important;
+  }
+}
