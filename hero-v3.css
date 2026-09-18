@@ -42,14 +42,15 @@
   pointer-events:none;
 }
 .hero:after{
-  content:"01 / EXISTING → 02 / STRUCTURE → 03 / MATTER";
+  content:"";
   position:absolute;
   z-index:4;
   left:calc(52% + 28px);
   top:calc(var(--header-h) + 24px);
-  font:400 7px/1 var(--mono);
-  letter-spacing:.16em;
-  color:rgba(238,231,220,.58);
+  width:72px;
+  height:72px;
+  border-top:1px solid rgba(238,231,220,.34);
+  border-left:1px solid rgba(238,231,220,.34);
   pointer-events:none;
 }
 .hero-copy{
