@@ -189,7 +189,7 @@ body.case-page{background:var(--pd-paper);color:var(--pd-ink)}
   padding:23px 0;
   border-bottom-color:rgba(17,21,18,.21);
 }
-.materials li span{color:#a94326}
+.materials li span{color:#8f351d}
 .materials li h3{
   font-size:clamp(32px,3.5vw,60px);
   letter-spacing:-.052em;
